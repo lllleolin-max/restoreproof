@@ -1,0 +1,2 @@
+# Preserve Python module/probe bytes across Windows and POSIX checkouts.
+*.py text eol=lf
