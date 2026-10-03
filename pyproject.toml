@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "restoreproof"
+version = "0.1.0"
+description = "Bounded, application-aware SQLite and asset restore drills"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "lllleolin-max"}]
+keywords = ["restore", "sqlite", "backup", "application-consistency"]
+classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
+
+[project.scripts]
+restoreproof = "restoreproof.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+restoreproof = ["py.typed"]

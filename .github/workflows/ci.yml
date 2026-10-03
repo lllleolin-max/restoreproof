@@ -1,0 +1,21 @@
+name: ordinary-wheel-and-restore
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip wheel . --no-deps --wheel-dir dist
+      - name: Install actual wheel into runner interpreter
+        run: python -c "import glob,subprocess,sys; subprocess.check_call([sys.executable,'-m','pip','install','--force-reinstall',*glob.glob('dist/*.whl')])"
+      - run: python -m unittest discover -s tests -v
+      - run: python tools/verify_workflow.py
+      - run: python tools/contrast.py
