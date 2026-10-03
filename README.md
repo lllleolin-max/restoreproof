@@ -4,21 +4,17 @@ Restore a small declared SQLite application and its assets into a fresh director
 
 For maintainers of local document libraries, artifact catalogs and SQLite-backed desktop tools, the pilot job is a repeatable restore drill with actionable JSON evidence. This is a bounded local tool; it has no proven customers, revenue or willingness to pay.
 
+中文：面向小型 SQLite+文件应用维护者，演练备份恢复后数据库、引用资源与声明查询是否一起可用。适合已停止写入的本地应用；运行中的 WAL 数据库、任意 ZIP 或通用灾备认证不在支持范围内。
+
 ## Quickstart / 快速开始
 
-Python 3.11 or newer. Run from the repository directory. Commands below use an ordinary wheel install, never editable mode:
+Python 3.11 or newer; standard-library runtime. Run from a clone in the intended environment. For an isolated install, run `python -m venv .venv`, then `.venv\Scripts\Activate.ps1` in PowerShell or `source .venv/bin/activate` in Bash. Start with an ordinary wheel install:
 
 ```console
-python -m pip wheel . --no-deps --wheel-dir dist
-python -c "import glob,subprocess,sys; subprocess.check_call([sys.executable,'-m','pip','install','--force-reinstall',*glob.glob('dist/*.whl')])"
-python -m unittest discover -s tests -v
-python tools/verify_workflow.py
-python tools/contrast.py
+python -m pip install .
 ```
 
-`verify_workflow.py` discovers the real console script with the **target interpreter's** `sysconfig.get_path('scripts')`. It verifies the loaded module is in that interpreter's site-packages, runs a real source → snapshot → isolated restore, and independently queries SQLite and hashes restored asset bytes. CI installs into the runner interpreter on Ubuntu/Windows and Python 3.11/3.14. A local virtual-environment install is an isolated ordinary install, not proof that a global installation succeeded. Remote CI remains unverified until executed.
-
-With the target interpreter's scripts directory in PATH:
+With the target interpreter's scripts directory in PATH (or replace `restoreproof` with `python -m restoreproof.cli`):
 
 ```console
 mkdir pilot
@@ -41,7 +37,8 @@ CLI exit codes: `0` for successful operation (`USABLE`, `BYTE_VERIFIED`, `PLANNE
 from pathlib import Path
 from restoreproof import Limits, drill, make_fixture, snapshot
 
-root = Path("pilot")  # create this directory first
+root = Path("pilot")
+root.mkdir(exist_ok=True)
 make_fixture(root / "app")
 snapshot(root / "app/source", root / "app/application.json", root / "backup")
 (root / "restores").mkdir()
@@ -50,7 +47,13 @@ report = drill(root / "backup/snapshot.zip", root / "backup/manifest.json",
 assert report["decision"] == "USABLE", report["issues"]
 ```
 
+Use a new `pilot` directory for the SDK example if you already ran the CLI example; `app` and `backup` must be new. On your own application, write a descriptor modeled on `pilot/app/application.json`, name the quiescent source database, and declare exact read-only consumer queries and asset-reference queries ([field reference](docs/FORMAT.md)). Keep the archive, manifest and JSON drill report together. Review `decision`, `issues` and `destination`; only `USABLE` confirms those declared assertions. Add missing consumer checks to your descriptor before relying on a drill for a release decision.
+
 Public interfaces are `Limits`, `RestoreError.code`, `snapshot`, `plan`, `drill`, and `make_fixture`. See [format](docs/FORMAT.md), [architecture](docs/ARCHITECTURE.md), [comparison/pilot rationale](docs/COMPARISON.md), [iteration evidence](docs/ITERATIONS.md), [security](SECURITY.md), and [contributing](CONTRIBUTING.md).
+
+Optional verification: `python tools/verify_workflow.py` discovers the real console script with the **target interpreter's** `sysconfig.get_path('scripts')`, verifies a site-packages install, runs source → snapshot → isolated restore, independently queries SQLite and hashes restored assets, and exercises a missing-asset failure. Run `python tools/contrast.py` for the synthetic comparison and `python -m unittest discover -s tests -v` for the suite. For a distributable wheel, use `python -m pip wheel . --no-deps --wheel-dir dist`.
+
+CI installs into the runner interpreter on Ubuntu/Windows and Python 3.11/3.14. A local virtual-environment install is an isolated ordinary install, not proof that a global installation succeeded. Remote CI remains unverified until executed.
 
 Version 0.1.1 normalizes malformed manifest numeric/encoding boundaries into preflight failed evidence. The unchanged peer-authored counterexample is runnable as `python tools/probes/round4.py`; `python tools/peer_consumer_oracle.py` separately inspects 20 synthetic restored applications. These checks support correction verification; an independent re-review decides acceptance.
 
