@@ -1,0 +1,1042 @@
+{
+  "environment": {
+    "platform": "win32",
+    "python": "3.14.3"
+  },
+  "peer_probe_sha256": "88162b9c958e87bafca682d2cfd65a19f57ae9bcb4664d5ceceba886d113c99e",
+  "peer_oracle_sha256": "062f86d216570ff9451776bf6d2b0d6368a796bdb602286bc0fd159911a181a6",
+  "states": [
+    {
+      "state": "before",
+      "commit": "b7ae9be639e2ac45f5c8c693ed76a267c1618169",
+      "parent": "ddc59c10d03405ac32de7eafbaa7e6b9c5d5f4e1",
+      "version": "0.1.0",
+      "archive_sha256": "aef127b5445551c000517879eba9c40d694ff3378a7e0e960a2e53a2639b808b",
+      "wheel_sha256": "4362457fdb208de7d10ad76455c779473e882ae277bd2d3c0cfe81b2d03ff3b1",
+      "ordinary_install": true,
+      "module_sha256": {
+        "__init__.py": "4acf893d051ebe4dcc1774a7906891bcf4b54023303951698ac3e3cba1e08621",
+        "core.py": "d7d2d58974592dfd08f529a99667dbacccd343c85d6323fe49e1a0d2316750a6",
+        "cli.py": "d7b3d7c1e11fb50f869cb2706120aafc059e84971da3095fafd244d1e7a3f428",
+        "fixture.py": "bf1ab32d78ae8322522ece412d16046e8d73a1e963f547a58a7a9c517c465a5b"
+      },
+      "historical_suite_count": 43,
+      "suite_exit": 0,
+      "actual_console_exit": 0,
+      "contrast": {
+        "fixture": "synthetic SQLite document library",
+        "baseline": "same strict extraction and digest checks; application assertions disabled",
+        "incumbent_executed": false,
+        "cases": [
+          {
+            "case": "healthy",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "USABLE",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "all_declared_checks_passed",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002875,
+            "application_seconds": 0.028823
+          },
+          {
+            "case": "missing_asset",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "ASSET_MISSING",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002757,
+            "application_seconds": 0.004745
+          },
+          {
+            "case": "asset_mismatch",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "ASSET_MISMATCH",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002877,
+            "application_seconds": 0.005594
+          },
+          {
+            "case": "foreign_key",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_unchanged": true,
+            "baseline_seconds": 0.00334,
+            "application_seconds": 0.004997
+          },
+          {
+            "case": "wrong_query",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "QUERY_EXPECTATION",
+            "source_unchanged": true,
+            "baseline_seconds": 0.00294,
+            "application_seconds": 0.004669
+          },
+          {
+            "case": "budget_exhausted",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "QUERY_BUDGET",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003437,
+            "application_seconds": 0.005011
+          },
+          {
+            "case": "digest_corrupt",
+            "hash_only": "FAILED",
+            "application_aware": "FAILED",
+            "byte_integrity": "failed",
+            "snapshot_agreement": "not_run",
+            "reason": "BYTE_INTEGRITY",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002321,
+            "application_seconds": 0.002196
+          }
+        ]
+      },
+      "peer_consumer_oracle": {
+        "cases": 20,
+        "passed": true,
+        "records": [
+          {
+            "case": "healthy",
+            "documents": 1,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 2,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 3,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 4,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          }
+        ]
+      },
+      "scalar_probe_exit": 1,
+      "scalar_probe_sha256": "88162b9c958e87bafca682d2cfd65a19f57ae9bcb4664d5ceceba886d113c99e",
+      "scalar_probe": {
+        "cases": [
+          {
+            "case": "overlarge_real_exponent",
+            "sdk_escaped_exception": "OverflowError",
+            "sdk_decision": null,
+            "cli_exit": 1,
+            "cli_stdout_decision": null,
+            "cli_traceback": true,
+            "input_preserved": true,
+            "destination_not_created": true,
+            "passed": false
+          },
+          {
+            "case": "overlarge_json_integer",
+            "sdk_escaped_exception": "ValueError",
+            "sdk_decision": null,
+            "cli_exit": 2,
+            "cli_stdout_decision": null,
+            "cli_traceback": false,
+            "input_preserved": true,
+            "destination_not_created": true,
+            "passed": false
+          }
+        ],
+        "passed": false
+      },
+      "old_probe_exits": [
+        0,
+        0,
+        0
+      ],
+      "encoding_probe_exit": 1,
+      "encoding_probe_sha256": "091170e83dad2b35ddd827c49ab5ed43271d4c02486021568ae72abfb7050405"
+    },
+    {
+      "state": "after",
+      "commit": "ce22fecef51eba81ea99a0754e064ae21d3698ad",
+      "parent": "b7ae9be639e2ac45f5c8c693ed76a267c1618169",
+      "version": "0.1.1",
+      "archive_sha256": "dc06327a3da9d9b029cfc98c0db7bef81af5ebc03df1d7416a10d4a61eb135b1",
+      "wheel_sha256": "83981ec32e49b8bc3da0ae73e9831d2b11cf5185bc40bef5648d6b59c6c266e5",
+      "ordinary_install": true,
+      "module_sha256": {
+        "__init__.py": "941914762b28c4d44c06397b142b1342cd1ddfdf724d4502acaaa304019ac6bf",
+        "core.py": "eb6e0ff39417e739a0446a39ed83063780ec4af9d10de7a5378f49c66d507bad",
+        "cli.py": "d7b3d7c1e11fb50f869cb2706120aafc059e84971da3095fafd244d1e7a3f428",
+        "fixture.py": "bf1ab32d78ae8322522ece412d16046e8d73a1e963f547a58a7a9c517c465a5b"
+      },
+      "historical_suite_count": 57,
+      "suite_exit": 0,
+      "actual_console_exit": 0,
+      "contrast": {
+        "fixture": "synthetic SQLite document library",
+        "baseline": "same strict extraction and digest checks; application assertions disabled",
+        "incumbent_executed": false,
+        "cases": [
+          {
+            "case": "healthy",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "USABLE",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "all_declared_checks_passed",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003696,
+            "application_seconds": 0.031114
+          },
+          {
+            "case": "missing_asset",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "ASSET_MISSING",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003432,
+            "application_seconds": 0.006521
+          },
+          {
+            "case": "asset_mismatch",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "ASSET_MISMATCH",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003056,
+            "application_seconds": 0.00562
+          },
+          {
+            "case": "foreign_key",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002819,
+            "application_seconds": 0.004869
+          },
+          {
+            "case": "wrong_query",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "QUERY_EXPECTATION",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003332,
+            "application_seconds": 0.00569
+          },
+          {
+            "case": "budget_exhausted",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "QUERY_BUDGET",
+            "source_unchanged": true,
+            "baseline_seconds": 0.005133,
+            "application_seconds": 0.007044
+          },
+          {
+            "case": "digest_corrupt",
+            "hash_only": "FAILED",
+            "application_aware": "FAILED",
+            "byte_integrity": "failed",
+            "snapshot_agreement": "not_run",
+            "reason": "BYTE_INTEGRITY",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002332,
+            "application_seconds": 0.002127
+          }
+        ]
+      },
+      "peer_consumer_oracle": {
+        "cases": 20,
+        "passed": true,
+        "records": [
+          {
+            "case": "healthy",
+            "documents": 1,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 2,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 3,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 4,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          }
+        ]
+      },
+      "scalar_probe_exit": 0,
+      "scalar_probe_sha256": "88162b9c958e87bafca682d2cfd65a19f57ae9bcb4664d5ceceba886d113c99e",
+      "scalar_probe": {
+        "cases": [
+          {
+            "case": "overlarge_real_exponent",
+            "sdk_escaped_exception": null,
+            "sdk_decision": "FAILED",
+            "cli_exit": 1,
+            "cli_stdout_decision": "FAILED",
+            "cli_traceback": false,
+            "input_preserved": true,
+            "destination_not_created": true,
+            "passed": true
+          },
+          {
+            "case": "overlarge_json_integer",
+            "sdk_escaped_exception": null,
+            "sdk_decision": "FAILED",
+            "cli_exit": 1,
+            "cli_stdout_decision": "FAILED",
+            "cli_traceback": false,
+            "input_preserved": true,
+            "destination_not_created": true,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "old_probe_exits": [
+        0,
+        0,
+        0
+      ],
+      "encoding_probe_exit": 1,
+      "encoding_probe_sha256": "091170e83dad2b35ddd827c49ab5ed43271d4c02486021568ae72abfb7050405"
+    },
+    {
+      "state": "final",
+      "commit": "8b67f210469a9652a052a45920f0bc25e2ebc323",
+      "parent": "ce22fecef51eba81ea99a0754e064ae21d3698ad",
+      "version": "0.1.1",
+      "archive_sha256": "0c4525b8c762275f3049beb761b8ca5ef238a8f0dc62f9ac91a3b06aa8de8bf5",
+      "wheel_sha256": "1ab47c1b12d76c7bc5021d270d278c5338345aec3a3edd77925e008fc5775595",
+      "ordinary_install": true,
+      "module_sha256": {
+        "__init__.py": "941914762b28c4d44c06397b142b1342cd1ddfdf724d4502acaaa304019ac6bf",
+        "core.py": "62117a312114d762f2791f5bad218833e3ecbd003dbbc904cc6f6f21deae4176",
+        "cli.py": "d7b3d7c1e11fb50f869cb2706120aafc059e84971da3095fafd244d1e7a3f428",
+        "fixture.py": "bf1ab32d78ae8322522ece412d16046e8d73a1e963f547a58a7a9c517c465a5b"
+      },
+      "historical_suite_count": 59,
+      "suite_exit": 0,
+      "actual_console_exit": 0,
+      "contrast": {
+        "fixture": "synthetic SQLite document library",
+        "baseline": "same strict extraction and digest checks; application assertions disabled",
+        "incumbent_executed": false,
+        "cases": [
+          {
+            "case": "healthy",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "USABLE",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "all_declared_checks_passed",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002932,
+            "application_seconds": 0.030992
+          },
+          {
+            "case": "missing_asset",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "ASSET_MISSING",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003607,
+            "application_seconds": 0.010099
+          },
+          {
+            "case": "asset_mismatch",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "ASSET_MISMATCH",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003759,
+            "application_seconds": 0.006573
+          },
+          {
+            "case": "foreign_key",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002779,
+            "application_seconds": 0.005411
+          },
+          {
+            "case": "wrong_query",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "QUERY_EXPECTATION",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003346,
+            "application_seconds": 0.00574
+          },
+          {
+            "case": "budget_exhausted",
+            "hash_only": "BYTE_VERIFIED",
+            "application_aware": "FAILED",
+            "byte_integrity": "passed",
+            "snapshot_agreement": "passed",
+            "reason": "QUERY_BUDGET",
+            "source_unchanged": true,
+            "baseline_seconds": 0.003093,
+            "application_seconds": 0.005479
+          },
+          {
+            "case": "digest_corrupt",
+            "hash_only": "FAILED",
+            "application_aware": "FAILED",
+            "byte_integrity": "failed",
+            "snapshot_agreement": "not_run",
+            "reason": "BYTE_INTEGRITY",
+            "source_unchanged": true,
+            "baseline_seconds": 0.002828,
+            "application_seconds": 0.002697
+          }
+        ]
+      },
+      "peer_consumer_oracle": {
+        "cases": 20,
+        "passed": true,
+        "records": [
+          {
+            "case": "healthy",
+            "documents": 1,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 1,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 2,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 2,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 3,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 3,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "healthy",
+            "documents": 4,
+            "oracle_usable": true,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "USABLE",
+            "reason": null,
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "missing",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISSING",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "digest",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "ASSET_MISMATCH",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "foreign_key",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "SQLITE_FOREIGN_KEY",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          },
+          {
+            "case": "query",
+            "documents": 4,
+            "oracle_usable": false,
+            "hash_only": "BYTE_VERIFIED",
+            "full": "FAILED",
+            "reason": "QUERY_EXPECTATION",
+            "source_preserved": true,
+            "restored_oracle_agrees": true
+          }
+        ]
+      },
+      "scalar_probe_exit": 0,
+      "scalar_probe_sha256": "88162b9c958e87bafca682d2cfd65a19f57ae9bcb4664d5ceceba886d113c99e",
+      "scalar_probe": {
+        "cases": [
+          {
+            "case": "overlarge_real_exponent",
+            "sdk_escaped_exception": null,
+            "sdk_decision": "FAILED",
+            "cli_exit": 1,
+            "cli_stdout_decision": "FAILED",
+            "cli_traceback": false,
+            "input_preserved": true,
+            "destination_not_created": true,
+            "passed": true
+          },
+          {
+            "case": "overlarge_json_integer",
+            "sdk_escaped_exception": null,
+            "sdk_decision": "FAILED",
+            "cli_exit": 1,
+            "cli_stdout_decision": "FAILED",
+            "cli_traceback": false,
+            "input_preserved": true,
+            "destination_not_created": true,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      "old_probe_exits": [
+        0,
+        0,
+        0
+      ],
+      "encoding_probe_exit": 0,
+      "encoding_probe_sha256": "091170e83dad2b35ddd827c49ab5ed43271d4c02486021568ae72abfb7050405"
+    }
+  ]
+}

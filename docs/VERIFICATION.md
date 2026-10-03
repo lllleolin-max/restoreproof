@@ -1,5 +1,32 @@
 # Verification evidence
 
+## Current corrected 0.1.1
+
+Current library/tests source is `8b67f210469a9652a052a45920f0bc25e2ebc323`; the later documentation/evidence commit changes no package code or tests. Local environment: Windows/Python 3.14.3. The rejected 0.1.0 state below remains historical evidence, not current acceptance.
+
+The actual exact-Git-archive ordinary-wheel replay is [recorded in JSON](evidence/scalar-correction.json). Source archive SHA-256: `0c4525b8c762275f3049beb761b8ca5ef238a8f0dc62f9ac91a3b06aa8de8bf5`; measured wheel SHA-256: `1ab47c1b12d76c7bc5021d270d278c5338345aec3a3edd77925e008fc5775595`; core module SHA-256: `62117a312114d762f2791f5bad218833e3ecbd003dbbc904cc6f6f21deae4176`. All four installed `.py` module bytes matched both exact Git blobs and archive files. Rebuilding at another timestamp need not reproduce the wheel container hash.
+
+Observed at that exact source: **59 tests PASS** (its own archived suite); registered console workflow PASS; independent restored SQLite/asset oracle PASS; unchanged peer scalar probe PASS; unchanged encoding probe PASS; original three probes PASS; peer-authored 20-app direct consumer oracle **20/20 PASS**; seven same-archive contrasts PASS. The original peer scalar probe remains byte-identical at SHA-256 `88162b9c958e87bafca682d2cfd65a19f57ae9bcb4664d5ceceba886d113c99e`, and was also executed from its untouched external review location during development. Both malformed inputs now yield SDK `FAILED`, actual CLI exit 1/JSON `FAILED`, no traceback, unchanged input hashes and no destination child.
+
+Reproduce normal installation and current checks:
+
+```console
+python -m pip wheel . --no-deps --wheel-dir dist
+python -c "import glob,subprocess,sys; subprocess.check_call([sys.executable,'-m','pip','install','--force-reinstall',*glob.glob('dist/restoreproof-0.1.1-*.whl')])"
+python -m unittest discover -s tests -v
+python tools/verify_workflow.py
+python tools/probes/round4.py
+python tools/probes/round5.py
+python tools/peer_consumer_oracle.py
+python tools/contrast.py
+```
+
+`tools/replay_boundary.py` additionally rebuilds the exact rejected/numeric/encoding commits and records 43/57/59 historical suite sizes. Its normal installs use separate fresh site-packages, and its actual consoles use the executing interpreter's `sysconfig.get_path('scripts')`; virtual-environment success is not used as proof of a current global installation. The old full three-cycle history was not silently reclassified as a new full run; its old evidence remains below and in `history.json`.
+
+No re-review score, successful remote CI, public publication, real customer, revenue, authenticity or RPO/RTO fact follows from these local checks. The independent reviewer can still reject this corrected artifact; fixing the earlier cap does not automatically establish a score above 80.
+
+## Historical 0.1.0 build observations
+
 Verified locally 2026-10-03, Windows/Python 3.14.3, version 0.1.0. Core correction source state: `ddc59c10d03405ac32de7eafbaa7e6b9c5d5f4e1`. The subsequent documentation/evidence commit does not change package code/tests. Final repository HEAD is obtained with `git rev-parse HEAD`; verification at that frozen HEAD is reported separately by the builder.
 
 Actual ordinary **global interpreter install**:

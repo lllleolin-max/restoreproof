@@ -52,6 +52,8 @@ assert report["decision"] == "USABLE", report["issues"]
 
 Public interfaces are `Limits`, `RestoreError.code`, `snapshot`, `plan`, `drill`, and `make_fixture`. See [format](docs/FORMAT.md), [architecture](docs/ARCHITECTURE.md), [comparison/pilot rationale](docs/COMPARISON.md), [iteration evidence](docs/ITERATIONS.md), [security](SECURITY.md), and [contributing](CONTRIBUTING.md).
 
+Version 0.1.1 normalizes malformed manifest numeric/encoding boundaries into preflight failed evidence. The unchanged peer-authored counterexample is runnable as `python tools/probes/round4.py`; `python tools/peer_consumer_oracle.py` separately inspects 20 synthetic restored applications. These checks support correction verification; an independent re-review decides acceptance.
+
 ## Supported boundary / 支持边界
 
 - Strict single-disk ZIP32 with regular stored/deflate files, no ZIP64, directory entries, descriptors, extras or comments. This is a deliberately narrow generated/importable format, not a general ZIP extractor.
