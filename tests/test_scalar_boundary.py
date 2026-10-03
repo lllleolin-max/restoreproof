@@ -124,6 +124,19 @@ class ScalarBoundaryTests(unittest.TestCase):
             with self.subTest(prefix=str(payload)[:20]):
                 self.reject(payload)
 
+    def test_utf16_utf32_byte_autodetection_is_rejected_in_sdk_and_console(self):
+        for encoding in ("utf-16", "utf-16-le", "utf-16-be", "utf-32", "utf-32-le", "utf-32-be"):
+            with self.subTest(encoding=encoding):
+                self.reject(self.original.encode(encoding), console=True)
+
+    def test_utf8_bom_and_unescaped_text_preserve_legal_manifest_behavior(self):
+        data = json.loads(self.original)
+        data["application"]["queries"][0].update(sql="SELECT '恢复文档'", expected=[[{"type": "text", "value": "恢复文档"}]])
+        self.manifest.write_bytes(json.dumps(data, ensure_ascii=False).encode("utf-8-sig"))
+        report = drill(self.archive, self.manifest, self.parent)
+        self.assertEqual(report["decision"], "USABLE", report)
+        self.assertEqual(report["source_preserved"], "passed")
+
     def test_nonfinite_json_constants_and_wrong_cell_types(self):
         for token in ("NaN", "Infinity", "-Infinity"):
             with self.subTest(token=token):

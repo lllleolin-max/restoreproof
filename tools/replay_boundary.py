@@ -25,6 +25,7 @@ def sha(path):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--after", required=True, help="exact substantive correction SHA")
+    parser.add_argument("--final", help="optional exact subsequent UTF-8 correction SHA")
     parser.add_argument("--out", default=".local/boundary-replay")
     args = parser.parse_args()
     repository = Path(__file__).resolve().parents[1]
@@ -35,7 +36,10 @@ def main():
     oracle = repository / "tools/peer_consumer_oracle.py"
     assert sha(probe) == PROBE_SHA and sha(oracle) == ORACLE_SHA
     records = []
-    for label, commit, expected in (("before", BEFORE, 1), ("after", args.after, 0)):
+    states = [("before", BEFORE, 1), ("after", args.after, 0)]
+    if args.final:
+        states.append(("final", args.final, 0))
+    for label, commit, expected in states:
         commit = subprocess.check_output(["git", "rev-parse", commit], cwd=repository, text=True).strip()
         root = out / label
         root.mkdir()
@@ -76,6 +80,10 @@ def main():
             assert [case["cli_exit"] for case in scalar["cases"]] == [1, 2]
         for number in (1, 2, 3):
             execute("historical_probe" + str(number), [python, repository / f"tools/probes/round{number}.py"])
+        encoding_expected = 0 if label == "final" else 1
+        encoding = execute("encoding", [python, repository / "tools/probes/round5.py"], expected=encoding_expected)
+        if encoding_expected:
+            assert "AssertionError: JSON byte autodetection accepted unsupported UTF-16 manifest" in encoding.stderr
         parent = subprocess.check_output(["git", "show", "-s", "--format=%P", commit], cwd=repository, text=True).strip()
         records.append({"state": label, "commit": commit, "parent": parent, "version": association["version"],
                         "archive_sha256": sha(archive), "wheel_sha256": sha(wheel),
@@ -83,9 +91,12 @@ def main():
                         "historical_suite_count": count, "suite_exit": tests.returncode, "actual_console_exit": 0,
                         "contrast": contrast, "peer_consumer_oracle": peer, "scalar_probe_exit": scalar_result.returncode,
                         "scalar_probe_sha256": sha(probe), "scalar_probe": scalar,
-                        "old_probe_exits": [0, 0, 0]})
+                        "old_probe_exits": [0, 0, 0], "encoding_probe_exit": encoding.returncode,
+                        "encoding_probe_sha256": sha(repository / "tools/probes/round5.py")})
         print(json.dumps({"state": label, "commit": commit, "tests": count, "scalar_probe_exit": scalar_result.returncode, "peer_consumer_cases": peer["cases"]}), flush=True)
     assert records[1]["parent"] == BEFORE, "correction must directly follow rejected frozen state"
+    if args.final:
+        assert records[2]["parent"] == records[1]["commit"], "encoding correction must directly follow numeric correction"
     summary = {"environment": {"platform": sys.platform, "python": sys.version.split()[0]},
                "peer_probe_sha256": PROBE_SHA, "peer_oracle_sha256": ORACLE_SHA, "states": records}
     (out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")

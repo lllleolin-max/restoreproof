@@ -224,7 +224,9 @@ def read_json(path: Path, limits: Limits) -> dict[str, Any]:
     if len(data) > limits.manifest_bytes:
         fail("MANIFEST_LIMIT", "JSON input exceeds byte limit")
     try:
-        parsed = json.loads(data, object_pairs_hook=_pairs,
+        # Decode explicitly: json.loads(bytes/bytearray) autodetects UTF-16/32,
+        # which are outside the declared UTF-8 format. Keep legal UTF-8 BOM input.
+        parsed = json.loads(data.decode("utf-8-sig"), object_pairs_hook=_pairs,
                             parse_int=_integer_token, parse_float=_float_token,
                             parse_constant=lambda _: fail("MANIFEST", "nonfinite JSON numbers forbidden"))
         # JSON escape syntax can represent lone surrogates despite a UTF-8 input.
