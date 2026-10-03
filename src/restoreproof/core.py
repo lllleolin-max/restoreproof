@@ -22,6 +22,12 @@ CHUNK = 65536
 DIGEST = re.compile(r"[0-9a-f]{64}\Z")
 IDENT = re.compile(r"[A-Za-z][A-Za-z0-9_-]{0,63}\Z")
 DEVICE = re.compile(r"(?:CON|PRN|AUX|NUL|COM[1-9¹²³]|LPT[1-9¹²³])(?:\..*)?\Z", re.I)
+MAX_INTEGER = (1 << 63) - 1
+MAX_SQLITE_LIMIT = (1 << 31) - 1
+# Every finite binary64 float.hex() spelling fits 24 characters. Reject long
+# mantissas/exponents before native conversion; native finite/canonical checks
+# below still determine whether a bounded spelling represents an exact REAL.
+REAL_HEX = re.compile(r"-?0x(?:0\.0p\+0|[01]\.[0-9a-f]{13}p[+-](?:0|[1-9][0-9]{0,3}))\Z")
 
 
 class RestoreError(ValueError):
@@ -56,6 +62,9 @@ class Limits:
             value = getattr(self, field.name)
             if type(value) is not int or value <= 0:
                 fail("LIMIT", f"{field.name} must be a positive integer (not bool)")
+            maximum = MAX_SQLITE_LIMIT if field.name in ("sql_bytes", "cell_bytes") else MAX_INTEGER
+            if value > maximum:
+                fail("LIMIT", f"{field.name} exceeds its representable resource limit")
 
 
 def digest_file(path: Path) -> str:
@@ -140,11 +149,11 @@ def _cell(value: Any) -> None:
              (typ == "integer" and type(val) is int and -(2**63) <= val < 2**63) or
              (typ == "text" and type(val) is str) or
              (typ == "blob" and type(val) is str and re.fullmatch(r"(?:[0-9a-f]{2})*", val) is not None))
-    if typ == "real" and type(val) is str:
+    if typ == "real" and type(val) is str and len(val) <= 24 and REAL_HEX.fullmatch(val):
         try:
             number = float.fromhex(val)
             valid = math.isfinite(number) and number.hex() == val
-        except ValueError:
+        except (ValueError, OverflowError):
             pass
     if not valid:
         fail("MANIFEST", "expected values must use canonical exact SQLite types")
@@ -185,13 +194,38 @@ def _pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return result
 
 
+def _integer_token(token: str) -> int:
+    # All legal JSON numeric fields are signed-64-bit integers: file sizes and
+    # SQLite INTEGER expectations. Never hand an unbounded digit string to int(),
+    # and do not depend on the interpreter's configurable decimal digit limit.
+    digits = token[1:] if token.startswith("-") else token
+    if len(digits) > 19:
+        fail("MANIFEST", "JSON integer exceeds signed 64-bit range")
+    number = int(token)
+    if not -MAX_INTEGER - 1 <= number <= MAX_INTEGER:
+        fail("MANIFEST", "JSON integer exceeds signed 64-bit range")
+    return number
+
+
+def _float_token(token: str) -> None:
+    # REAL cells use canonical hexadecimal strings. No schema field admits a
+    # raw decimal/exponent JSON float, so reject it without native conversion.
+    fail("MANIFEST", "JSON numeric fields require integers; REAL expectations use hexadecimal strings")
+
+
 def read_json(path: Path, limits: Limits) -> dict[str, Any]:
+    data = bytearray()
     with path.open("rb") as stream:
-        data = stream.read(limits.manifest_bytes + 1)
+        while len(data) <= limits.manifest_bytes:
+            chunk = stream.read(min(CHUNK, limits.manifest_bytes + 1 - len(data)))
+            if not chunk:
+                break
+            data.extend(chunk)
     if len(data) > limits.manifest_bytes:
         fail("MANIFEST_LIMIT", "JSON input exceeds byte limit")
     try:
         parsed = json.loads(data, object_pairs_hook=_pairs,
+                            parse_int=_integer_token, parse_float=_float_token,
                             parse_constant=lambda _: fail("MANIFEST", "nonfinite JSON numbers forbidden"))
         # JSON escape syntax can represent lone surrogates despite a UTF-8 input.
         # Validate all strings, including keys and expectation cells, before any
