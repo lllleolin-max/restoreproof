@@ -68,7 +68,13 @@ def digest_file(path: Path) -> str:
 
 def portable_path(value: Any) -> str:
     """Validate original spelling; never normalize an unsafe archive name."""
-    if type(value) is not str or not value or len(value.encode("utf-8")) > 240:
+    if type(value) is not str or not value:
+        fail("PATH", "path must be nonempty UTF-8 and at most 240 bytes")
+    try:
+        encoded = value.encode("utf-8")
+    except UnicodeError as exc:
+        raise RestoreError("PATH", "path contains a non-UTF-8 Unicode scalar") from exc
+    if len(encoded) > 240:
         fail("PATH", "path must be nonempty UTF-8 and at most 240 bytes")
     if unicodedata.normalize("NFC", value) != value:
         fail("PATH", "path spelling must already be NFC")
@@ -185,8 +191,22 @@ def read_json(path: Path, limits: Limits) -> dict[str, Any]:
     if len(data) > limits.manifest_bytes:
         fail("MANIFEST_LIMIT", "JSON input exceeds byte limit")
     try:
-        return json.loads(data, object_pairs_hook=_pairs,
-                          parse_constant=lambda _: fail("MANIFEST", "nonfinite JSON numbers forbidden"))
+        parsed = json.loads(data, object_pairs_hook=_pairs,
+                            parse_constant=lambda _: fail("MANIFEST", "nonfinite JSON numbers forbidden"))
+        # JSON escape syntax can represent lone surrogates despite a UTF-8 input.
+        # Validate all strings, including keys and expectation cells, before any
+        # path operation, SQLite binding or ensure_ascii=False serialization.
+        pending = [parsed]
+        while pending:
+            item = pending.pop()
+            if type(item) is str:
+                item.encode("utf-8")
+            elif type(item) is dict:
+                pending.extend(item.keys())
+                pending.extend(item.values())
+            elif type(item) is list:
+                pending.extend(item)
+        return parsed
     except (UnicodeError, json.JSONDecodeError, RecursionError) as exc:
         raise RestoreError("MANIFEST", "invalid or excessively nested UTF-8 JSON") from exc
 

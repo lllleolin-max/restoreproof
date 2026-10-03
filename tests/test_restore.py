@@ -143,6 +143,19 @@ class RestoreTests(unittest.TestCase):
         paths[1].write_text('{"format":NaN}')
         self.assert_failed(self.run_drill(paths), "MANIFEST")
 
+    def test_escaped_surrogate_returns_structured_failure(self):
+        paths = self.fixture()
+        data = json.loads(paths[1].read_text())
+        data["files"][0]["path"] = "\ud800"
+        paths[1].write_text(json.dumps(data))
+        self.assert_failed(self.run_drill(paths), "MANIFEST")
+        self.assertEqual(list(self.parent.iterdir()), [])
+
+    def test_escaped_surrogate_in_expected_text_is_rejected(self):
+        paths = self.fixture()
+        self.update_app(paths, lambda app: app["queries"][0].update(expected=[[{"type": "text", "value": "\udfff"}]]))
+        self.assert_failed(self.run_drill(paths), "MANIFEST")
+
     def test_untrusted_extra_manifest_keys(self):
         paths = self.fixture()
         self.update_app(paths, lambda app: app.update(shell="echo unsafe"))
