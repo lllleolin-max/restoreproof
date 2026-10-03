@@ -595,8 +595,14 @@ def _source_files(root: Path, limits: Limits) -> list[tuple[str, Path]]:
 
 def snapshot(source: str | Path, spec: str | Path, output: str | Path, *, limits: Limits = Limits()) -> dict[str, Any]:
     """Copy a declared quiescent source into a new ZIP32+manifest directory."""
-    source, spec, output = Path(source).resolve(), Path(spec).resolve(), Path(output).absolute()
-    if not source.is_dir() or source.is_symlink() or output.is_relative_to(source):
+    original_source = Path(source)
+    source_info = original_source.lstat()
+    if original_source.is_symlink() or getattr(source_info, "st_file_attributes", 0) & 0x400:
+        fail("SOURCE_ENTRY", "source root links/reparse points unsupported")
+    # Resolve the destination before checking overlap or creating anything. A
+    # lexical absolute path still contains '..' and can alias the source tree.
+    source, spec, output = original_source.resolve(), Path(spec).resolve(), Path(output).resolve()
+    if not source.is_dir() or output.is_relative_to(source):
         fail("SOURCE", "source directory required and output must be outside it")
     if spec.is_relative_to(source):
         fail("SOURCE", "application spec must be outside source inventory")

@@ -225,6 +225,25 @@ class RestoreTests(unittest.TestCase):
             snapshot(self.root / "app/source", self.root / "app/application.json", self.root / "backup")
         self.assertEqual(before, digest_file(self.root / "backup/snapshot.zip"))
 
+    def test_snapshot_output_dot_alias_cannot_pollute_source(self):
+        make_fixture(self.root / "app")
+        (self.root / "spare").mkdir()
+        source = self.root / "app/source"
+        before = {p.relative_to(source).as_posix(): digest_file(p) for p in source.rglob("*") if p.is_file()}
+        with self.assertRaises(RestoreError) as error:
+            snapshot(source, self.root / "app/application.json", self.root / "spare/../app/source/inside")
+        self.assertEqual(error.exception.code, "SOURCE")
+        after = {p.relative_to(source).as_posix(): digest_file(p) for p in source.rglob("*") if p.is_file()}
+        self.assertEqual(before, after)
+        self.assertFalse((source / "inside").exists())
+
+    def test_snapshot_outside_dot_alias_is_supported(self):
+        make_fixture(self.root / "app")
+        (self.root / "spare").mkdir()
+        result = snapshot(self.root / "app/source", self.root / "app/application.json", self.root / "spare/../backup")
+        self.assertEqual(result["status"], "SNAPSHOT_CREATED")
+        self.assertTrue((self.root / "backup/snapshot.zip").is_file())
+
     def test_snapshot_wal_header_rejected_even_without_sidecars(self):
         make_fixture(self.root / "app")
         db = self.root / "app/source/library.sqlite"
