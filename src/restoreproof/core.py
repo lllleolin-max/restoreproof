@@ -511,7 +511,7 @@ def drill(archive: str | Path, manifest: str | Path, parent: str | Path, *,
     started = time.monotonic()
     report: dict[str, Any] = {"format": "restoreproof-report-v1", "decision": "FAILED", "phase": "preflight",
         "destination": None, "lifecycle": "not_created", "byte_integrity": "not_run",
-        "snapshot_agreement": "not_run", "application_assertions": "not_run", "assertions": [], "issues": [],
+        "metadata_plan": "not_run", "snapshot_agreement": "not_run", "application_assertions": "not_run", "assertions": [], "issues": [],
         "inputs": {}, "source_preserved": "not_verified", "limits": {field.name: getattr(limits, field.name) for field in fields(limits)},
         "metrics": {"decompressed_bytes": 0, "restored_files": 0, "sql_vm_steps": 0, "sql_rows": 0, "sql_result_bytes": 0}}
     fingerprints: dict[str, str] = {}
@@ -522,7 +522,7 @@ def drill(archive: str | Path, manifest: str | Path, parent: str | Path, *,
         report["inputs"] = fingerprints.copy()
         data = read_manifest(manifest, limits)
         members = _plan(archive, data, limits)
-        report["snapshot_agreement"] = "passed"
+        report["metadata_plan"] = "passed"
         if not parent.is_dir() or parent.is_symlink():
             fail("DESTINATION", "trusted parent must be an existing real directory")
         destination = Path(tempfile.mkdtemp(prefix="restoreproof-", dir=parent))
@@ -530,6 +530,9 @@ def drill(archive: str | Path, manifest: str | Path, parent: str | Path, *,
         report["lifecycle"] = "partial_failed"
         report["phase"] = "extraction"
         digests = _extract(archive, members, data, destination, limits, report["metrics"])
+        # Agreement includes actual decompressed sizes and a completed file set.
+        # A valid plan does not establish agreement for an interrupted extraction.
+        report["snapshot_agreement"] = "passed"
         report["byte_integrity"] = "passed"
         report["lifecycle"] = "bytes_restored"
         if application:
@@ -552,6 +555,7 @@ def drill(archive: str | Path, manifest: str | Path, parent: str | Path, *,
             if code == "SNAPSHOT":
                 report["snapshot_agreement"] = "failed"
         elif code in ("SNAPSHOT", "MANIFEST", "COLLISION", "PATH", "ENTRY", "ARCHIVE"):
+            report["metadata_plan"] = "failed"
             report["snapshot_agreement"] = "failed"
     finally:
         if fingerprints:

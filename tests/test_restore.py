@@ -315,6 +315,16 @@ class RestoreTests(unittest.TestCase):
         report = self.run_drill(paths, limits=replace(Limits(), total_bytes=10))
         self.assert_failed(report, "DECOMPRESS_LIMIT")
         self.assertEqual(report["lifecycle"], "partial_failed")
+        self.assertEqual(report["metadata_plan"], "passed")
+        self.assertEqual(report["snapshot_agreement"], "not_run")
+
+    def test_snapshot_agreement_requires_all_actual_sizes(self):
+        paths = self.fixture()
+        report = self.run_drill(paths, limits=replace(Limits(), total_bytes=1))
+        self.assert_failed(report, "DECOMPRESS_LIMIT")
+        self.assertNotEqual(report["snapshot_agreement"], "passed")
+        self.assertEqual(report["metrics"]["restored_files"], 0)
+        self.assertEqual(report["application_assertions"], "not_run")
 
     def test_actual_decompression_not_advertised_size(self):
         paths = self.fixture()
