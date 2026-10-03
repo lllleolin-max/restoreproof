@@ -1,0 +1,84 @@
+{
+  "fixture": "synthetic SQLite document library",
+  "baseline": "same strict extraction and digest checks; application assertions disabled",
+  "incumbent_executed": false,
+  "cases": [
+    {
+      "case": "healthy",
+      "hash_only": "BYTE_VERIFIED",
+      "application_aware": "USABLE",
+      "byte_integrity": "passed",
+      "snapshot_agreement": "passed",
+      "reason": "all_declared_checks_passed",
+      "source_unchanged": true,
+      "baseline_seconds": 0.005939,
+      "application_seconds": 0.03625
+    },
+    {
+      "case": "missing_asset",
+      "hash_only": "BYTE_VERIFIED",
+      "application_aware": "FAILED",
+      "byte_integrity": "passed",
+      "snapshot_agreement": "passed",
+      "reason": "ASSET_MISSING",
+      "source_unchanged": true,
+      "baseline_seconds": 0.003261,
+      "application_seconds": 0.005268
+    },
+    {
+      "case": "asset_mismatch",
+      "hash_only": "BYTE_VERIFIED",
+      "application_aware": "FAILED",
+      "byte_integrity": "passed",
+      "snapshot_agreement": "passed",
+      "reason": "ASSET_MISMATCH",
+      "source_unchanged": true,
+      "baseline_seconds": 0.004431,
+      "application_seconds": 0.005768
+    },
+    {
+      "case": "foreign_key",
+      "hash_only": "BYTE_VERIFIED",
+      "application_aware": "FAILED",
+      "byte_integrity": "passed",
+      "snapshot_agreement": "passed",
+      "reason": "SQLITE_FOREIGN_KEY",
+      "source_unchanged": true,
+      "baseline_seconds": 0.005104,
+      "application_seconds": 0.006091
+    },
+    {
+      "case": "wrong_query",
+      "hash_only": "BYTE_VERIFIED",
+      "application_aware": "FAILED",
+      "byte_integrity": "passed",
+      "snapshot_agreement": "passed",
+      "reason": "QUERY_EXPECTATION",
+      "source_unchanged": true,
+      "baseline_seconds": 0.003117,
+      "application_seconds": 0.005483
+    },
+    {
+      "case": "budget_exhausted",
+      "hash_only": "BYTE_VERIFIED",
+      "application_aware": "FAILED",
+      "byte_integrity": "passed",
+      "snapshot_agreement": "passed",
+      "reason": "QUERY_BUDGET",
+      "source_unchanged": true,
+      "baseline_seconds": 0.004615,
+      "application_seconds": 0.005623
+    },
+    {
+      "case": "digest_corrupt",
+      "hash_only": "FAILED",
+      "application_aware": "FAILED",
+      "byte_integrity": "failed",
+      "snapshot_agreement": "not_run",
+      "reason": "BYTE_INTEGRITY",
+      "source_unchanged": true,
+      "baseline_seconds": 0.002513,
+      "application_seconds": 0.002465
+    }
+  ]
+}

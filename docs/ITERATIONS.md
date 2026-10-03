@@ -18,4 +18,17 @@ Correction: report metadata planning independently and defer actual snapshot agr
 
 Before: `4ab9053790b645e9cc61ec14277398d8b9f30b93`. Self-review exercised an output path spelling `spare/../app/source/inside-backup`. The lexical absolute-path containment test did not normalize `..`; snapshot creation wrote a ZIP and failure marker into the source tree before detecting inventory changes. Unchanged `python tools/probes/round3.py` exited 1 with `AssertionError: output alias wrote new backup artifacts into source before rejection`. Probe SHA-256: `2fa3ca93e7d2fec6fc659ddcbd4ae10191adeeb1519f7f2fa84f797efc108e01`.
 
-Correction: resolve the destination before overlap checks and before any creation; inspect the original source root before resolving so a root symlink/reparse point cannot disappear from the link check. Added a source-inventory-preservation regression and a valid outside-source dot-alias case. Archive names still validate original spelling; only operator filesystem paths are resolved. After-state SHA and actual ordinary-wheel results follow after the correction commit.
+Correction: resolve the destination before overlap checks and before any creation; inspect the original source root before resolving so a root symlink/reparse point cannot disappear from the link check. Added a source-inventory-preservation regression and a valid outside-source dot-alias case. Archive names still validate original spelling; only operator filesystem paths are resolved. After: `ddc59c10d03405ac32de7eafbaa7e6b9c5d5f4e1`, direct child of the before state. Newly built ordinary wheel: same probe PASS, **43 tests** PASS, ordinary console workflow and seven-case contrast PASS.
+
+## Exact historical archive replay
+
+`python tools/replay_history.py --out .local/history` actually rebuilt all four exact Git archives into separate ordinary virtual-environment wheels, then ran **each archive's own tests, console workflow and contrast**. It also ran the same current portable probe bytes against every historical installed wheel. Raw logs/paths are ignored; [sanitized machine evidence](evidence/history.json) records archive/wheel SHA-256 and probe fingerprints.
+
+| Exact source commit | Archive's tests | Own console/contrast | Probe 1 exit | Probe 2 exit | Probe 3 exit |
+|---|---:|---|---:|---:|---:|
+| `ec5681706a1c023ea58df62bbd28bd8cbc440c23` | 38 PASS | PASS / PASS | 1 | 1 | 1 |
+| `75d3703ad6eeda3ebfb02c0bfc6fe0d794d98b29` | 40 PASS | PASS / PASS | 0 | 1 | 1 |
+| `4ab9053790b645e9cc61ec14277398d8b9f30b93` | 41 PASS | PASS / PASS | 0 | 0 | 1 |
+| `ddc59c10d03405ac32de7eafbaa7e6b9c5d5f4e1` | 43 PASS | PASS / PASS | 0 | 0 | 0 |
+
+Exit 1 is the intended probe assertion failure exposing an unresolved historical defect, not a passed run. Counts above are attached only to the named archived source states. Later tests were not copied into earlier suites. This replay is local Windows/Python 3.14.3 evidence; it does not claim remote CI or Python 3.11/Linux execution.

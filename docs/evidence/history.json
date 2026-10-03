@@ -1,0 +1,110 @@
+{
+  "environment": "actual executing Python 3.14.3",
+  "mode": "separate ordinary venv/site-packages per exact Git archive",
+  "states": [
+    {
+      "commit": "ec5681706a1c023ea58df62bbd28bd8cbc440c23",
+      "archive_sha256": "be9a08d1892551391336ee57cc929314b532548000383dca01a2ad6a172f22a1",
+      "wheel_sha256": "d88537b939ebcfed57897da4f3a25ec54717abd1ad88020cd31ba04d939a3c70",
+      "historical_tests": 38,
+      "historical_suite": "passed",
+      "ordinary_console": "passed",
+      "same_archive_contrast": "passed",
+      "probes": [
+        {
+          "round": 1,
+          "exit": 1,
+          "probe_sha256": "174ecd601f355293044bb5ff796c34c3c1294f6852c19fc8a3ae26d0312fa7d8"
+        },
+        {
+          "round": 2,
+          "exit": 1,
+          "probe_sha256": "9ea5f5a977e59d246bbdf23d1302b5baa704109e030a4967205148fd97bb4ac2"
+        },
+        {
+          "round": 3,
+          "exit": 1,
+          "probe_sha256": "2fa3ca93e7d2fec6fc659ddcbd4ae10191adeeb1519f7f2fa84f797efc108e01"
+        }
+      ]
+    },
+    {
+      "commit": "75d3703ad6eeda3ebfb02c0bfc6fe0d794d98b29",
+      "archive_sha256": "9e5c65a98b3442d258e7b6ce56f12bfd721f4f282def35943eb5786c8e87e0ad",
+      "wheel_sha256": "e3d651b7d3c41741f540ace8c7de390f7121beac891f546cc1b9de3094e1c5d8",
+      "historical_tests": 40,
+      "historical_suite": "passed",
+      "ordinary_console": "passed",
+      "same_archive_contrast": "passed",
+      "probes": [
+        {
+          "round": 1,
+          "exit": 0,
+          "probe_sha256": "174ecd601f355293044bb5ff796c34c3c1294f6852c19fc8a3ae26d0312fa7d8"
+        },
+        {
+          "round": 2,
+          "exit": 1,
+          "probe_sha256": "9ea5f5a977e59d246bbdf23d1302b5baa704109e030a4967205148fd97bb4ac2"
+        },
+        {
+          "round": 3,
+          "exit": 1,
+          "probe_sha256": "2fa3ca93e7d2fec6fc659ddcbd4ae10191adeeb1519f7f2fa84f797efc108e01"
+        }
+      ]
+    },
+    {
+      "commit": "4ab9053790b645e9cc61ec14277398d8b9f30b93",
+      "archive_sha256": "a0da029ccd7ae2ff2a9fdd8ee306da0eca8700f78dee2553861725614d072587",
+      "wheel_sha256": "a4469b8556afe3192ee5e236e087631646ec05ca6171ea618cd27376d5e3e781",
+      "historical_tests": 41,
+      "historical_suite": "passed",
+      "ordinary_console": "passed",
+      "same_archive_contrast": "passed",
+      "probes": [
+        {
+          "round": 1,
+          "exit": 0,
+          "probe_sha256": "174ecd601f355293044bb5ff796c34c3c1294f6852c19fc8a3ae26d0312fa7d8"
+        },
+        {
+          "round": 2,
+          "exit": 0,
+          "probe_sha256": "9ea5f5a977e59d246bbdf23d1302b5baa704109e030a4967205148fd97bb4ac2"
+        },
+        {
+          "round": 3,
+          "exit": 1,
+          "probe_sha256": "2fa3ca93e7d2fec6fc659ddcbd4ae10191adeeb1519f7f2fa84f797efc108e01"
+        }
+      ]
+    },
+    {
+      "commit": "ddc59c10d03405ac32de7eafbaa7e6b9c5d5f4e1",
+      "archive_sha256": "9068b78b9d62c1bfdba5ce8dadd0a506a6f2e012c7fad9c441c608220e9da9dd",
+      "wheel_sha256": "3fff516f9a52dbd828d09fa619643069f0197afed8a2490cf4e6cf6fe46c3b03",
+      "historical_tests": 43,
+      "historical_suite": "passed",
+      "ordinary_console": "passed",
+      "same_archive_contrast": "passed",
+      "probes": [
+        {
+          "round": 1,
+          "exit": 0,
+          "probe_sha256": "174ecd601f355293044bb5ff796c34c3c1294f6852c19fc8a3ae26d0312fa7d8"
+        },
+        {
+          "round": 2,
+          "exit": 0,
+          "probe_sha256": "9ea5f5a977e59d246bbdf23d1302b5baa704109e030a4967205148fd97bb4ac2"
+        },
+        {
+          "round": 3,
+          "exit": 0,
+          "probe_sha256": "2fa3ca93e7d2fec6fc659ddcbd4ae10191adeeb1519f7f2fa84f797efc108e01"
+        }
+      ]
+    }
+  ]
+}
