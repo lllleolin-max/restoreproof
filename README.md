@@ -8,6 +8,13 @@ For maintainers of local document libraries, artifact catalogs and SQLite-backed
 
 ## Quickstart / 快速开始
 
+With Git installed, start from a new checkout / 首次使用先克隆并进入目录：
+
+```console
+git clone https://github.com/lllleolin-max/restoreproof.git
+cd restoreproof
+```
+
 Python 3.11 or newer; standard-library runtime. Run from a clone in the intended environment. For an isolated install, run `python -m venv .venv`, then `.venv\Scripts\Activate.ps1` in PowerShell or `source .venv/bin/activate` in Bash. Start with an ordinary wheel install:
 
 ```console
